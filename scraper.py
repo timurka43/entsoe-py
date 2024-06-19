@@ -104,7 +104,7 @@ if __name__ == '__main__':
     
     
     start = 2015 # 2015 is the earliest year available
-    end = 2025 # current year is the latest available
+    end = 2024 # current year is the latest available
 
     # time of the day defaults to 00:00
 
