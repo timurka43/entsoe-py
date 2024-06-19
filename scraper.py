@@ -93,8 +93,8 @@ def generation_scraper(start_year, end_year, country_code_list, name=None, appen
             xml_country += '</MY_XML>'
             # print(xml_year)  # what do we get for the last year queried?  
             #aggregated generation values for all years for one country in xml_country
-            print("Parsing " + country) #QUITE A BOTTLENECK BUT PROBABLY OKAY
-            df_country = parsers.parse_generation(xml_country) 
+            print("Parsing " + country) 
+            df_country = parsers.parse_generation(xml_country) # BOTTLENECK WITH LONGER XML STRINGS
             # df_country = df_country.tz_convert(mappings.TIMEZONE_MAPPINGS[country_code]) # this messes up saving into excel
             # just have naive time values all standardized to UTC
 
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     
     
     start = 2015 # 2015 is the earliest year available
-    end = 2025 # current year is the latest available
+    end = 2016 # current year is the latest available
 
     # time of the day defaults to 00:00
 
