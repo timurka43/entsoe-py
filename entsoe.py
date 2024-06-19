@@ -242,10 +242,10 @@ class Entsoe:
         # print(final_url) # use for debugging
 
         for _ in range(self.retry_count):
-            print("start get request, bottleneck?")
+            # print("start get request, bottleneck?")
             response = self.session.get(url=final_url, ### MASSIVE BOTTLENECK
                                         proxies=self.proxies)
-            print("end get request")
+            # print("end get request")
             
             try:
                 response.raise_for_status()

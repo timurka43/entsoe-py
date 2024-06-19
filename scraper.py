@@ -81,10 +81,11 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
             print("Parsing " + str(year)) 
             df_year = parsers.parse_generation(xml_year) # BOTTLENECK WITH LONGER XML STRINGS
 
-        print("Writing " + str(year))
+            print("Writing " + str(year))
 
-        ## record each year in a separate sheet:
-        df_year.to_excel(writer, sheet_name=str(year))
+            ## record each year in a separate sheet:
+            df_year.to_excel(writer, sheet_name=str(year))
+        
         print()
         # finished writing one sheet
         writer.close() # save excel file after writing sheets
@@ -107,8 +108,8 @@ if __name__ == '__main__':
 
     # time of the day defaults to 00:00
 
-    # country_code_list = country_groups.EU1
-    country_code_list = ['RO']
+    country_code_list = country_groups.EU6
+    # country_code_list = ['RO']
 
 
     generation_scraper(start, end, country_code_list, append=False)
