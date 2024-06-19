@@ -49,67 +49,48 @@ Issues/Improvements:
     separate function that checks the last data available and then
     adds new data to the dataframe
 '''
-def generation_scraper(start_year, end_year, country_code_list, name=None, append=False):
+def generation_scraper(start_year, end_year, country_code_list, append=False):
     
-    # name of the file
-    if name is not None:
-        filename = name+'.xlsx'
-    else:
-        filename = "generation.xlsx"
-
-    # set the append setting for either creating/overwriting a new excel file
-    # or appending to the existing excel file
-    if (append):
-        mode = 'a'
-    else:
-        mode = 'w'
-
-    writer = pd.ExcelWriter(filename, mode=mode)
-
-
     for country_code in country_code_list:
-        
+ 
         country = mappings.COUNTRY_MAPPINGS[country_code]
         print(country)
 
+        # name of the file
+        filename = country+".xlsx"
 
-        
-        if (country in writer.sheets):
-            print(country+' already exists in this excel file. Skipping')
+        # set the append setting for either creating/overwriting a new excel file
+        # or appending to the existing excel file
+        if (append):
+            mode = 'a'
         else:
+            mode = 'w'
 
-            xml_country = '<MY_XML>'
-            for year in range(start_year, end_year+1):
-                print(year)
-                df_dates = pd.DataFrame({'year': [year, year+1],
-                                'month': [1, 1],
-                                'day': [1, 1]})
-
-                start_tm, end_tm = pd.to_datetime(df_dates) # one-year periods separatel
-                xml_year = ent_app.query_generation(country_code, start_tm, end_tm, as_dataframe=False)
-                ## keep appending xml texts to each other
-                xml_country += xml_year
-
-            xml_country += '</MY_XML>'
-            # print(xml_year)  # what do we get for the last year queried?  
-            #aggregated generation values for all years for one country in xml_country
-            print("Parsing " + country) 
-            df_country = parsers.parse_generation(xml_country) # BOTTLENECK WITH LONGER XML STRINGS
-            # df_country = df_country.tz_convert(mappings.TIMEZONE_MAPPINGS[country_code]) # this messes up saving into excel
-            # just have naive time values all standardized to UTC
-
-            print("Writing " + country)
+        writer = pd.ExcelWriter(filename, mode=mode) # writing one excel file per country, with year-specific sheets
 
 
+        for year in range(start_year, end_year+1):
+            print(year)
+            df_dates = pd.DataFrame({'year': [year, year+1],
+                            'month': [1, 1],
+                            'day': [1, 1]})
 
-            ## record country in a separate sheet:
-            df_country.to_excel(writer, sheet_name=country)
+            start_tm, end_tm = pd.to_datetime(df_dates) # one-year periods separatel
+            xml_year = ent_app.query_generation(country_code, start_tm, end_tm, as_dataframe=False)
+
+            print("Parsing " + str(year)) 
+            df_year = parsers.parse_generation(xml_year) # BOTTLENECK WITH LONGER XML STRINGS
+
+        print("Writing " + str(year))
+
+        ## record each year in a separate sheet:
+        df_year.to_excel(writer, sheet_name=str(year))
         print()
         # finished writing one sheet
-        
-    
-    writer.close() # save excel file after writing sheets
+        writer.close() # save excel file after writing sheets
+        #finished one country
 
+    # finished all countries
     return
 
 
@@ -122,13 +103,14 @@ if __name__ == '__main__':
     
     
     start = 2015 # 2015 is the earliest year available
-    end = 2016 # current year is the latest available
+    end = 2025 # current year is the latest available
 
     # time of the day defaults to 00:00
 
-    country_code_list = country_groups.EU1
+    # country_code_list = country_groups.EU1
+    country_code_list = ['RO']
 
 
-    generation_scraper(start, end, country_code_list, 'EU_generation', append=False)
+    generation_scraper(start, end, country_code_list, append=False)
 
-
+    
