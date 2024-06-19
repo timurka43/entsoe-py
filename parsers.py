@@ -198,8 +198,8 @@ def _parse_datetimeindex(soup):
     -------
     pd.DatetimeIndex
     """
-    start = pd.Timestamp(soup.find('start').text)
-    end = pd.Timestamp(soup.find('end').text)
+    start = pd.Timestamp(soup.find('start').text.rstrip("Z")) #manually remove UTC's timezone info
+    end = pd.Timestamp(soup.find('end').text.rstrip("Z"))
     delta = _resolution_to_timedelta(res_text=soup.find('resolution').text) #specified time interval between points
     logger.info('delta is %s', delta)
     # index = pd.date_range(start=start, end=end, freq=delta, closed='left')

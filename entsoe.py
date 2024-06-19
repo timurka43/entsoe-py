@@ -36,6 +36,7 @@ DOMAIN_MAPPINGS = {
     'BY': '10Y1001A1001A51S',
     'CH': '10YCH-SWISSGRIDZ',
     'CZ': '10YCZ-CEPS-----N',
+    'CY': '10YCY-1001A0003J',
     'DE': '10Y1001A1001A83F',
     'DE-AT-LU': '10Y1001A1001A63L',
     'DK': '10Y1001A1001A65H',
@@ -238,11 +239,13 @@ class Entsoe:
 
         # my addition for restructuring and debugging get call
         final_url = self.getFinalURL(BASE_URL, params)
-        print(final_url) # use for debugging
+        # print(final_url) # use for debugging
 
         for _ in range(self.retry_count):
-            response = self.session.get(url=final_url,
+            # print("start get request, bottleneck?")
+            response = self.session.get(url=final_url, ### MASSIVE BOTTLENECK
                                         proxies=self.proxies)
+            # print("end get request")
             
             try:
                 response.raise_for_status()

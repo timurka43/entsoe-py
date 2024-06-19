@@ -3,6 +3,7 @@ import pandas as pd
 import entsoe as ent
 import parsers
 import mykey
+import mappings
 
 
 # # need these imports???
