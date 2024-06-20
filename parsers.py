@@ -162,8 +162,12 @@ def _parse_generation_forecast_timeseries(soup):
     quantities = []
     # record each quantity with corresponding position
     for point in soup.find_all('Point'):
-        positions.append(int(point.find('position').text))
-        quantities.append(float(point.find('quantity').text))
+        position = point.find('position')
+        quantity = point.find('quantity')
+        if (position is not None):
+            positions.append(int(position.text))
+        if (quantity is not None):
+            quantities.append(float(quantity.text))
 
     series = pd.Series(index=positions, data=quantities)
     series = series.sort_index() # is this line even necessary?
@@ -226,6 +230,8 @@ def _resolution_to_timedelta(res_text):
         delta = '60min'
     elif res_text == 'P1Y':
         delta = '12M'
+    elif res_text == 'PT30M':
+        delta = '30min'
     else:
         raise NotImplementedError("Sorry, I don't know what to do with the "
                                   "resolution '{}', because there was no "

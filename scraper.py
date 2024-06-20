@@ -75,7 +75,7 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
         urls = []
         # get all urls first
         for year in range(start_year, end_year+1):
-            print(year)
+            # print(year)
             df_dates = pd.DataFrame({'year': [year, year+1],
                             'month': [1, 1],
                             'day': [1, 1]})
@@ -88,7 +88,7 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
             
 
             # xml_year = ent_app.query_generation(country_code, start_tm, end_tm, as_dataframe=False)
-        print("got all urls")
+        # print("got all urls")
 
 
 
@@ -102,10 +102,13 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
         year = start_year
         # now parse through each xml response
         for xml_year in xml_responses:
-            print("Parsing " + str(year)) 
+            print("Parsing " + str(year))
+
+            file = open(country+' '+str(year), 'w', encoding='utf-8')
+            file.write(xml_year)
             df_year = parsers.parse_generation(xml_year) # BOTTLENECK WITH LONGER XML STRINGS
 
-            print("Writing " + str(year))
+            # print("Writing " + str(year))
 
             ## record each year in a separate sheet:
             df_year.to_excel(writer, sheet_name=str(year))
@@ -123,7 +126,7 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
 
 
 async def fetch(session, url):
-    print("GET START")
+    # print("GET START")
     async with session.get(url) as response:
         print("GET returning??")
         return await response.text()
@@ -132,8 +135,9 @@ async def fetch_all(urls):
     timeout = aiohttp.ClientTimeout(total=1200) # 1200 seconds = 20 minutes for 10 get simultaneous get requests
     async with aiohttp.ClientSession(timeout=timeout) as session:
         tasks = [asyncio.create_task(fetch(session, url)) for url in urls]
-        print("AWAITING")
+        # print("AWAITING")
         responses = await asyncio.gather(*tasks)
+        print("recorded in fetch_all")
         return responses
 
 
@@ -143,11 +147,11 @@ if __name__ == '__main__':
     
     
     start = 2015 # 2015 is the earliest year available
-    end = 2016 # current year is the latest available
+    end = 2024 # current year is the latest available
 
     # time of the day defaults to 00:00
 
-    country_code_list = country_groups.EU
+    country_code_list = country_groups.EU1
     # country_code_list = ['RO']
 
 

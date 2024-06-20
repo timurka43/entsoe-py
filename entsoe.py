@@ -203,6 +203,7 @@ class Entsoe:
             # print(k+"="+v)
             url += (k+"="+v+"&")
         url.rstrip("&") #remove the trailing "&"" character
+        # print(url)
         return url
     
 
