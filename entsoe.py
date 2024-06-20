@@ -239,36 +239,37 @@ class Entsoe:
 
         # my addition for restructuring and debugging get call
         final_url = self.getFinalURL(BASE_URL, params)
+        return final_url
         # print(final_url) # use for debugging
-
-        for _ in range(self.retry_count):
-            # print("start get request, bottleneck?")
-            response = self.session.get(url=final_url, ### MASSIVE BOTTLENECK
-                                        proxies=self.proxies)
-            # print("end get request")
+    
+#         for _ in range(self.retry_count):
+#             # print("start get request, bottleneck?")
+#             response = self.session.get(url=final_url, ### MASSIVE BOTTLENECK
+#                                         proxies=self.proxies)
+#             # print("end get request")
             
-            try:
-                response.raise_for_status()
-            except requests.HTTPError as e:
-                error = e
-                soup = BeautifulSoup(response.text, 'xml')
-                text = soup.find_all('text')
-                if len(text):
-                    error_text = soup.find('text').text
-                    if 'No matching data found' in error_text:
-                        self.logger.error('HTTP Error, no data found in %s', error_text)
-                        return None
-                print("HTTP Error, retrying in {} seconds".format(self.retry_delay))
-                self.logger.info('HTTP Error, retrying in %s seconds', self.retry_delay)
-                sleep(self.retry_delay)
-            else:
-                self.logger.info('HTTP request processed')
-                return response
-        else:
-            self.logger.info('HTTP request did not succeed after %s retries', self.retry_delay)
-            print("HTTP request did not succed after %s retries", self.retry_delay)
-            return None
-#           raise IOError(error) # or raise Error?
+#             try:
+#                 response.raise_for_status()
+#             except requests.HTTPError as e:
+#                 error = e
+#                 soup = BeautifulSoup(response.text, 'xml')
+#                 text = soup.find_all('text')
+#                 if len(text):
+#                     error_text = soup.find('text').text
+#                     if 'No matching data found' in error_text:
+#                         self.logger.error('HTTP Error, no data found in %s', error_text)
+#                         return None
+#                 print("HTTP Error, retrying in {} seconds".format(self.retry_delay))
+#                 self.logger.info('HTTP Error, retrying in %s seconds', self.retry_delay)
+#                 sleep(self.retry_delay)
+#             else:
+#                 self.logger.info('HTTP request processed')
+#                 return response
+#         else:
+#             self.logger.info('HTTP request did not succeed after %s retries', self.retry_delay)
+#             print("HTTP request did not succed after %s retries", self.retry_delay)
+#             return None
+# #           raise IOError(error) # or raise Error?
 
 
 
@@ -418,22 +419,25 @@ class Entsoe:
         }
         if psr_type:
             params.update({'psrType': psr_type}) # filter on one production type if psr_type specified
-        response = self.base_request(params=params, start=start, end=end)
-        if response is None:
-            self.logger.info('HTTP request returned nothing')
-            print("HTTP request returned nothing")
-            return None
-        if not as_dataframe:
-            self.logger.info('HTTP request processed - XML')
-            return response.text
-        else:
-            # print("Enter parsing zone")
-            df = parsers.parse_generation(response.content) 
-            df = df.tz_convert(TIMEZONE_MAPPINGS[country_code])
-            if squeeze:
-                df = df.squeeze()
-            self.logger.info('HTTP request processed - pandas')
-            return df
+        # response = self.base_request(params=params, start=start, end=end)
+        url = self.base_request(params=params, start=start, end=end)
+        return url
+        
+        # if response is None:
+        #     self.logger.info('HTTP request returned nothing')
+        #     print("HTTP request returned nothing")
+        #     return None
+        # if not as_dataframe:
+        #     self.logger.info('HTTP request processed - XML')
+        #     return response.text
+        # else:
+        #     # print("Enter parsing zone")
+        #     df = parsers.parse_generation(response.content) 
+        #     df = df.tz_convert(TIMEZONE_MAPPINGS[country_code])
+        #     if squeeze:
+        #         df = df.squeeze()
+        #     self.logger.info('HTTP request processed - pandas')
+        #     return df
 
 
 
