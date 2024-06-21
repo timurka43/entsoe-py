@@ -151,9 +151,9 @@ if __name__ == '__main__':
 
     # time of the day defaults to 00:00
 
-    country_code_list = country_groups.EU1
-    # country_code_list = ['RO']
-
+    # country_code_list = country_groups.EU6
+    # country_code_list = ['PL']
+ 
 
     generation_scraper(start, end, country_code_list, append=False)
 
