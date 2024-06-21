@@ -1,6 +1,16 @@
 # Entso-e scraper
 # for years 2015-now...
 
+
+'''
+Filename: scraper.py
+Author: Timur Kasimov
+Created: June 2024
+Updated: June 2024
+
+Purpose: Scrapes generation data from ENTSO-E Transparency Platform
+'''
+
 import pandas as pd
 import entsoe as ent
 import parsers
@@ -53,7 +63,7 @@ Issues/Improvements:
     separate function that checks the last data available and then
     adds new data to the dataframe
 '''
-def generation_scraper(start_year, end_year, country_code_list, append=False):
+def generation_scraper(start_year, end_year, country_code_list, append=True):
     
     for country_code in country_code_list:
  
@@ -70,7 +80,7 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
         else:
             mode = 'w'
 
-        writer = pd.ExcelWriter(filename, mode=mode) # writing one excel file per country, with year-specific sheets
+        writer = pd.ExcelWriter(filename, mode=mode, if_sheet_exists='replace' ) # writing one excel file per country, with year-specific sheets
 
         urls = []
         # get all urls first
@@ -104,8 +114,10 @@ def generation_scraper(start_year, end_year, country_code_list, append=False):
         for xml_year in xml_responses:
             print("Parsing " + str(year))
 
-            file = open(country+' '+str(year), 'w', encoding='utf-8')
-            file.write(xml_year)
+            # # xml text output (open in notepad or the likes) for debugging
+            # file = open(country+' '+str(year), 'w', encoding='utf-8')
+            # file.write(xml_year)
+
             df_year = parsers.parse_generation(xml_year) # BOTTLENECK WITH LONGER XML STRINGS
 
             # print("Writing " + str(year))
@@ -146,15 +158,16 @@ if __name__ == '__main__':
     ent_app = ent.Entsoe(KEY) # my api key/token
     
     
-    start = 2015 # 2015 is the earliest year available
+    start = 2024 # 2015 is the earliest year available
     end = 2024 # current year is the latest available
 
     # time of the day defaults to 00:00
 
-    # country_code_list = country_groups.EU6
-    # country_code_list = ['PL']
+    country_code_list = country_groups.EU1
+    # country_code_list = []
+    
  
 
-    generation_scraper(start, end, country_code_list, append=False)
+    generation_scraper(start, end, country_code_list)
 
     
