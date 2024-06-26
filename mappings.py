@@ -225,3 +225,10 @@ PSRTYPE_MAPPINGS = {
     'B22': 'DC Link',
     'B23': 'Substation',
     'B24': 'Transformer'}
+
+
+FREQUENCY_MAPPINGS = {
+    '1M' : 'Month',
+    '1W' : 'Week',
+    '1D' : 'Day'
+}
