@@ -145,14 +145,14 @@ if __name__ == '__main__':
     end_year = 2024
 
 
-    #########################################################
-    ### RUN THIS ONYL WHEN UPDATING COUNTRY-SPECIFIC DATA ###
-    #########################################################
-    # record new frequency for each country in a respective folder
-    # SHOULD BE APPENDING ONLY AFTER INITIAL RUNS
+    # #########################################################
+    # ### RUN THIS ONYL WHEN UPDATING COUNTRY-SPECIFIC DATA ###
+    # #########################################################
+    # # record new frequency for each country in a respective folder
+    # # SHOULD BE APPENDING ONLY AFTER INITIAL RUNS
     # record_new_frequency(country_codes, freq, start_year, end_year, append=False)
 
 
     
-    # records combined values for the region in the ./combined folder
-    aggregate_region(country_codes, freq, 2015, 2024, name='EU') # rather change years manually here
+    # # records combined values for the region in the ./combined folder
+    # aggregate_region(country_codes, freq, 2015, 2024, name='EU') # rather change years manually here

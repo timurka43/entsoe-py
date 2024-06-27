@@ -162,7 +162,7 @@ if __name__ == '__main__':
 
     # time of the day defaults to 00:00
 
-    country_code_list = country_groups.EU1
+    country_code_list = country_groups.EU3
     # country_code_list = []
     
  

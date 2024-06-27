@@ -1,3 +1,8 @@
+#############################
+# THIS SCRIPT IS DEPRECATED # 
+#############################
+
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import entsoe as ent
