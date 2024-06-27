@@ -9,6 +9,7 @@ frame.
 import logging
 import bs4
 import pandas as pd
+import mappings
 
 
 
@@ -178,7 +179,9 @@ def _parse_generation_forecast_timeseries(soup):
 
 
     # replaces df's series' indices with time stamps 
-    series.index = _parse_datetimeindex(soup)
+    series.index, Wh_converting_factor = _parse_datetimeindex(soup)
+
+    series = series * Wh_converting_factor # scale series's power (MW) values into energy values (MWh)
 
 
 
@@ -208,7 +211,9 @@ def _parse_datetimeindex(soup):
     logger.info('delta is %s', delta)
     # index = pd.date_range(start=start, end=end, freq=delta, closed='left')
     index = pd.date_range(start=start, end=end, freq=delta, inclusive='left') # replaces df's series' indices with time stamps in increments on delta
-    return index
+    Wh_scaler = mappings.DELTA_TO_SCALER[delta]
+
+    return index, Wh_scaler
 
 
 

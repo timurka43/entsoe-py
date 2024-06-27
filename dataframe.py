@@ -52,7 +52,6 @@ def record_new_frequency(country_codes, freq, start_year, end_year, append=True)
             if not df.empty:
                 df = resample_df(df, freq) # save the resampled dataframe back into dictionary
 
-
             df.to_excel(writer, sheet_name=sheet)
         
         writer.close()
@@ -140,12 +139,20 @@ def combine_sheets(region_year, country_year):
 if __name__ == '__main__':
 
     country_codes = country_groups.EU
-    # country_codes = ['PL', 'PT']
-    freq = '1D'
+    # country_codes = ['SE']
+    freq = '1M'
     start_year = 2015
     end_year = 2024
 
 
-    record_new_frequency(country_codes, freq, start_year, end_year, append=False)
+    #########################################################
+    ### RUN THIS ONYL WHEN UPDATING COUNTRY-SPECIFIC DATA ###
+    #########################################################
+    # record new frequency for each country in a respective folder
+    # SHOULD BE APPENDING ONLY AFTER INITIAL RUNS
+    # record_new_frequency(country_codes, freq, start_year, end_year, append=False)
 
-    aggregate_region(country_codes, freq, start_year, end_year, 'EU')
+
+    
+    # records combined values for the region in the ./combined folder
+    aggregate_region(country_codes, freq, 2015, 2024, name='EU') # rather change years manually here

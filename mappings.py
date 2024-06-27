@@ -232,3 +232,10 @@ FREQUENCY_MAPPINGS = {
     '1W' : 'Week',
     '1D' : 'Day'
 }
+
+
+DELTA_TO_SCALER = {
+    '15min' : 1/4,
+    '30min' : 1/2,
+    '60min' : 1
+}

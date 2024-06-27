@@ -63,7 +63,7 @@ Issues/Improvements:
     separate function that checks the last data available and then
     adds new data to the dataframe
 '''
-def generation_scraper(start_year, end_year, country_code_list, append=True):
+def generation_scraper(start_year, end_year, country_code_list, appending_data=True):
     
     for country_code in country_code_list:
  
@@ -75,12 +75,11 @@ def generation_scraper(start_year, end_year, country_code_list, append=True):
 
         # set the append setting for either creating/overwriting a new excel file
         # or appending to the existing excel file
-        if (append):
-            mode = 'a'
+        if (appending_data):
+            writer = pd.ExcelWriter(filename, mode='a', if_sheet_exists='replace' )
         else:
-            mode = 'w'
+            writer = pd.ExcelWriter(filename, mode='w' )
 
-        writer = pd.ExcelWriter(filename, mode=mode, if_sheet_exists='replace' ) # writing one excel file per country, with year-specific sheets
 
         urls = []
         # get all urls first
@@ -114,9 +113,9 @@ def generation_scraper(start_year, end_year, country_code_list, append=True):
         for xml_year in xml_responses:
             print("Parsing " + str(year))
 
-            # # xml text output (open in notepad or the likes) for debugging
-            # file = open(country+' '+str(year), 'w', encoding='utf-8')
-            # file.write(xml_year)
+            # xml text output (open in notepad or the likes) for debugging
+            file = open('./xmls/' + country+' '+str(year), 'w', encoding='utf-8')
+            file.write(xml_year)
 
             df_year = parsers.parse_generation(xml_year) # BOTTLENECK WITH LONGER XML STRINGS
 
@@ -149,7 +148,7 @@ async def fetch_all(urls):
         tasks = [asyncio.create_task(fetch(session, url)) for url in urls]
         # print("AWAITING")
         responses = await asyncio.gather(*tasks)
-        print("recorded in fetch_all")
+        # print("recorded in fetch_all")
         return responses
 
 
@@ -158,7 +157,7 @@ if __name__ == '__main__':
     ent_app = ent.Entsoe(KEY) # my api key/token
     
     
-    start = 2024 # 2015 is the earliest year available
+    start = 2015 # 2015 is the earliest year available
     end = 2024 # current year is the latest available
 
     # time of the day defaults to 00:00
@@ -167,7 +166,7 @@ if __name__ == '__main__':
     # country_code_list = []
     
  
-
-    generation_scraper(start, end, country_code_list)
+    #
+    generation_scraper(start, end, country_code_list, appending_data=False)
 
     

@@ -13,7 +13,6 @@ EU = ['AT', 'BE', 'BG', 'HR', 'CY',
     'ES', 'SE']
 
 
-
 # broken down so don't have to run all at once
 EU1 = ['AT', 'BE', 'BG', 'HR', 'CY']
 EU2 = ['CZ', 'DK', 'EE', 'FI', 'FR']
@@ -23,8 +22,10 @@ EU5 = ['PL', 'PT', 'RO', 'SK', 'SI']
 EU6 = ['ES', 'SE']
 
 
+TOP10 = []
 
-## need to update
+
+## NEED TO UPDATE THE LIST
 ALL_COUNTRY_CODES_GENERATION = ['AT', 'BE', 'BG', 'HR', 'CY',
                                 'CZ', 'DK', 'EE', 'FI', 'FR',
                                 'DE', 'GR', 'HU', 'IE', 'IT',
