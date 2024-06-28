@@ -1,4 +1,13 @@
+'''
+Name: psr_groups.py
+Author: Timur Kasimov
+Created: June 2024
+Updated: June 2024
 
+Purpose: 
+    Defining lists of various sources for 
+    electricity generation
+'''
 
 CARBON_NEUTRAL = []
 

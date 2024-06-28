@@ -6,7 +6,7 @@ import mappings
 import country_groups
 import psr_groups
 
-
+ 
 def get_combined_df(region, freq, start, end, columns, type_name):
 
     df_dict = {}
@@ -32,7 +32,6 @@ def get_combined_df(region, freq, start, end, columns, type_name):
     # SOLVED: only keep the necessary years in df_dict from the beginning
     combined_df = pd.concat(df_dict.values(), keys=df_dict.keys())
     return combined_df
-
 
 
 def max(combined_df):
@@ -164,12 +163,12 @@ if __name__ == '__main__':
 
 
     ### GENERATION TYPE/GROUP ###
-    psr_codes = psr_groups.HYDRO_SOLAR_WIND # group for type of generation (see psr_groups.py and mappings.py)
-    psr_label = 'Hydro, Solar, Wind' # custom label
+    psr_codes = psr_groups.TOTAL # group for type of generation (see psr_groups.py and mappings.py)
+    psr_label = 'Total' # custom label
 
 
     ### YEAR-SPECIFIC LINES ###
-    start_year = 2022
+    start_year = 2020
     end_year =2024
 
 

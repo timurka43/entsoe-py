@@ -1,51 +1,19 @@
+'''
+Name: mappings.py
+Author: Timur Kasimov
+Created: June 2024
+Updated: June 2024
+
+Purpose: 
+    Provide dicotinary-like mappings for use with API coded values
+    and for country codes/ full names
+'''
+
 ################
 ################
 ### MAPPINGS ###
 ################
 ################
-
-################################
-### COUNTRY_TO_CODE_MAPPINGS ###
-################################
-# COUNTRY_TO_CODE_MAPPINGS = {
-#     'Austria' : 'AT',
-#     'Belgium' : 'AT',
-#     'Bosnia and Herz.' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-#     'Austria' : 'AT',
-
-# }
 
 ##########################
 ###  COUNTRY_MAPPINGS  ###
@@ -96,6 +64,7 @@ COUNTRY_MAPPINGS = {
     'UA': 'Ukraine'
 }
 
+
 #######################
 ### DOMAIN_MAPPINGS ###
 #######################
@@ -108,6 +77,7 @@ DOMAIN_MAPPINGS = {
     'BY': '10Y1001A1001A51S',
     'CH': '10YCH-SWISSGRIDZ',
     'CZ': '10YCZ-CEPS-----N',
+    'CY': '10YCY-1001A0003J',
     'DE': '10Y1001A1001A83F',
     'DE-AT-LU': '10Y1001A1001A63L',
     'DK': '10Y1001A1001A65H',
@@ -193,7 +163,6 @@ TIMEZONE_MAPPINGS = {
 }
 
 
-
 ########################
 ### PSRTYPE_MAPPINGS ###
 ########################
@@ -224,9 +193,13 @@ PSRTYPE_MAPPINGS = {
     'B21': 'AC Link',
     'B22': 'DC Link',
     'B23': 'Substation',
-    'B24': 'Transformer'}
+    'B24': 'Transformer'
+}
 
 
+##########################
+### FREQUENCY_MAPPINGS ###
+##########################
 FREQUENCY_MAPPINGS = {
     '1M' : 'Month',
     '1W' : 'Week',
@@ -234,6 +207,9 @@ FREQUENCY_MAPPINGS = {
 }
 
 
+#######################
+### DELTA_TO_SCALER ###
+#######################
 DELTA_TO_SCALER = {
     '15min' : 1/4,
     '30min' : 1/2,

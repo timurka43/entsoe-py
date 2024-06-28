@@ -1,9 +1,5 @@
-# Entso-e scraper
-# for years 2015-now...
-
-
 '''
-Filename: scraper.py
+Name: scraper.py
 Author: Timur Kasimov
 Created: June 2024
 Updated: June 2024

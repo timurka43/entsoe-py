@@ -1,16 +1,14 @@
-# _*_ encoding utf-8 _*_
-"""
-entsoe-py package has some constants, it exports
+'''
+Author: Bertfried Fauser
+Contributor: Timur Kasimov
+Created: 2017? by Author
+Updated: June 2024 by Contributor
 
-- ``__title__``
-- ``__version__``
-- ``__author__``
-- ``__license__``
-- ``URL``
-- ``DOMAIN_MAPPINGS``
-- ``TIMEZONE_MAPPINGS``
-- ``Entsoe``
-"""
+Purpose: 
+    Defining lists of various country groups/ regions 
+    for data grouping and subsequent data generation
+'''
+
 
 import logging
 import pytz
@@ -18,6 +16,7 @@ import requests
 from bs4 import BeautifulSoup
 from time import sleep
 import parsers
+import mappings
 
 __title__ = "entsoe-py"
 __version__ = "0.1.12"
@@ -26,125 +25,6 @@ __license__ = "MIT"
 
 BASE_URL = 'https://web-api.tp.entsoe.eu/api?'
 
-
-DOMAIN_MAPPINGS = {
-    'AL': '10YAL-KESH-----5',
-    'AT': '10YAT-APG------L',
-    'BA': '10YBA-JPCC-----D',
-    'BE': '10YBE----------2',
-    'BG': '10YCA-BULGARIA-R',
-    'BY': '10Y1001A1001A51S',
-    'CH': '10YCH-SWISSGRIDZ',
-    'CZ': '10YCZ-CEPS-----N',
-    'CY': '10YCY-1001A0003J',
-    'DE': '10Y1001A1001A83F',
-    'DE-AT-LU': '10Y1001A1001A63L',
-    'DK': '10Y1001A1001A65H',
-    'EE': '10Y1001A1001A39I',
-    'ES': '10YES-REE------0',
-    'FI': '10YFI-1--------U',
-    'FR': '10YFR-RTE------C',
-    'GB': '10YGB----------A',
-    'GB-NIR': '10Y1001A1001A016',
-    'GR': '10YGR-HTSO-----Y',
-    'HR': '10YHR-HEP------M',
-    'HU': '10YHU-MAVIR----U',
-    'IE': '10YIE-1001A00010',
-    'IT': '10YIT-GRTN-----B',
-    'LT': '10YLT-1001A0008Q',
-    'LU': '10YLU-CEGEDEL-NQ',
-    'LV': '10YLV-1001A00074',
-    # 'MD': 'MD',
-    'ME': '10YCS-CG-TSO---S',
-    'MK': '10YMK-MEPSO----8',
-    'MT': '10Y1001A1001A93C',
-    'NL': '10YNL----------L',
-    'NO': '10YNO-0--------C',
-    'PL': '10YPL-AREA-----S',
-    'PT': '10YPT-REN------W',
-    'RO': '10YRO-TEL------P',
-    'RS': '10YCS-SERBIATSOV',
-    'RU': '10Y1001A1001A49F',
-    'RU-KGD': '10Y1001A1001A50U',
-    'SE': '10YSE-1--------K',
-    'SI': '10YSI-ELES-----O',
-    'SK': '10YSK-SEPS-----K',
-    'TR': '10YTR-TEIAS----W',
-    'UA': '10YUA-WEPS-----0'
-}
-
-TIMEZONE_MAPPINGS = {
-    'AL': 'Europe/Tirane',
-    'AT': 'Europe/Vienna',
-    'BA': 'Europe/Sarajevo',
-    'BE': 'Europe/Brussels',
-    'BG': 'Europe/Sofia',
-    'BY': 'Europe/Minsk',
-    'CH': 'Europe/Zurich',
-    'CZ': 'Europe/Prague',
-    'DE': 'Europe/Berlin',
-    'DK': 'Europe/Copenhagen',
-    'EE': 'Europe/Talinn',
-    'ES': 'Europe/Madrid',
-    'FI': 'Europe/Helsinki',
-    'FR': 'Europe/Paris',
-    'GB': 'Europe/London',
-    'GB-NIR': 'Europe/Belfast',
-    'GR': 'Europe/Athens',
-    'HR': 'Europe/Zagreb',
-    'HU': 'Europe/Budapest',
-    'IE': 'Europe/Dublin',
-    'IT': 'Europe/Rome',
-    'LT': 'Europe/Vilnius',
-    'LU': 'Europe/Luxembourg',
-    'LV': 'Europe/Riga',
-    # 'MD': 'MD',
-    'ME': 'Europe/Podgorica',
-    'MK': 'Europe/Skopje',
-    'MT': 'Europe/Malta',
-    'NL': 'Europe/Amsterdam',
-    'NO': 'Europe/Oslo',
-    'PL': 'Europe/Warsaw',
-    'PT': 'Europe/Lisbon',
-    'RO': 'Europe/Bucharest',
-    'RS': 'Europe/Belgrade',
-    'RU': 'Europe/Moscow',
-    'RU-KGD': 'Europe/Kaliningrad',
-    'SE': 'Europe/Stockholm',
-    'SI': 'Europe/Ljubljana',
-    'SK': 'Europe/Bratislava',
-    'TR': 'Europe/Istanbul',
-    'UA': 'Europe/Kiev'
-}
-
-PSRTYPE_MAPPINGS = {
-    'A03': 'Mixed',
-    'A04': 'Generation',
-    'A05': 'Load',
-    'B01': 'Biomass',
-    'B02': 'Fossil Brown coal/Lignite',
-    'B03': 'Fossil Coal-derived gas',
-    'B04': 'Fossil Gas',
-    'B05': 'Fossil Hard coal',
-    'B06': 'Fossil Oil',
-    'B07': 'Fossil Oil shale',
-    'B08': 'Fossil Peat',
-    'B09': 'Geothermal',
-    'B10': 'Hydro Pumped Storage',
-    'B11': 'Hydro Run-of-river and poundage',
-    'B12': 'Hydro Water Reservoir',
-    'B13': 'Marine',
-    'B14': 'Nuclear',
-    'B15': 'Other renewable',
-    'B16': 'Solar',
-    'B17': 'Waste',
-    'B18': 'Wind Offshore',
-    'B19': 'Wind Onshore',
-    'B20': 'Other',
-    'B21': 'AC Link',
-    'B22': 'DC Link',
-    'B23': 'Substation',
-    'B24': 'Transformer'}
 
 log = logging.getLogger(__name__ +'-api')
 log.addHandler(logging.NullHandler())
@@ -317,7 +197,7 @@ class Entsoe:
         -------
         str | pd.Series
         """
-        domain = DOMAIN_MAPPINGS[country_code]
+        domain = mappings.DOMAIN_MAPPINGS[country_code]
         params = {
             'documentType': 'A44', # Price Document, Transmission dah-ahead price
             'in_Domain': domain, 
@@ -332,7 +212,7 @@ class Entsoe:
             return response.text
         else:
             series = parsers.parse_prices(response.text)
-            series = series.tz_convert(TIMEZONE_MAPPINGS[country_code])
+            series = series.tz_convert(mappings.TIMEZONE_MAPPINGS[country_code])
             self.logger.info('HTTP request processed - pandas')
             df = series.to_frame() # ensure working with dataframe and not series
             return df
@@ -363,7 +243,7 @@ class Entsoe:
         str | pd.DataFrame
         """
 
-        domain = DOMAIN_MAPPINGS[country_code]
+        domain = mappings.DOMAIN_MAPPINGS[country_code]
         params = {
             'documentType': 'A69', 	# Wind and solar forecast
             'processType': 'A01', # DayAhead
@@ -380,7 +260,7 @@ class Entsoe:
             return response.text
         else:
             df = parsers.parse_generation(response.text)
-            df = df.tz_convert(TIMEZONE_MAPPINGS[country_code])
+            df = df.tz_convert(mappings.TIMEZONE_MAPPINGS[country_code])
             if squeeze:
                 df = df.squeeze()
             self.logger.info('HTTP request processed - pandas')
@@ -412,7 +292,7 @@ class Entsoe:
         str | pd.DataFrame
         """
 
-        domain = DOMAIN_MAPPINGS[country_code]
+        domain = mappings.DOMAIN_MAPPINGS[country_code]
         params = {
             'documentType': 'A75', # Actual generation per type
             'processType': 'A16', # Realised
@@ -434,7 +314,7 @@ class Entsoe:
         # else:
         #     # print("Enter parsing zone")
         #     df = parsers.parse_generation(response.content) 
-        #     df = df.tz_convert(TIMEZONE_MAPPINGS[country_code])
+        #     df = df.tz_convert(mappings.TIMEZONE_MAPPINGS[country_code])
         #     if squeeze:
         #         df = df.squeeze()
         #     self.logger.info('HTTP request processed - pandas')
@@ -465,7 +345,7 @@ class Entsoe:
         -------
         str | pd.DataFrame
         """
-        domain = DOMAIN_MAPPINGS[country_code]
+        domain = mappings.DOMAIN_MAPPINGS[country_code]
         params = {
             'documentType': 'A68',  # A68: Installed generation per type, Entso-e: Installed Capacity per Production Type
             'processType': 'A33', #Year ahead
@@ -482,7 +362,7 @@ class Entsoe:
             return response.text
         else:
             df = parsers.parse_generation(response.text)
-            df = df.tz_convert(TIMEZONE_MAPPINGS[country_code])
+            df = df.tz_convert(mappings.TIMEZONE_MAPPINGS[country_code])
             if squeeze:
                 df = df.squeeze()
             self.logger.info('HTTP request processed - pandas')
