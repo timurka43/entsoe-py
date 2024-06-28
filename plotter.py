@@ -128,10 +128,10 @@ def my_plot(region, freq, psr_codes, type_name, range=None, years=None, output_t
             df_to_excel[str(year) + ' [GWh]'] = df[type_name]/1000
     # END PLOTTING YEARS
     
+    time_int = mappings.FREQUENCY_MAPPINGS[freq]
 
-
-    plt.xlabel(mappings.FREQUENCY_MAPPINGS[freq])
-    plt.ylabel('[GWh]')
+    plt.xlabel(time_int)
+    plt.ylabel('GWh/'+time_int)
     plt.title(title)
     plt.legend() # put the legend outside the main frame
     
@@ -154,7 +154,7 @@ def my_plot(region, freq, psr_codes, type_name, range=None, years=None, output_t
 if __name__ == '__main__':
 
     ### REGION ###
-    region = 'EU'   # name of the combined region as saved in excel files
+    region = 'Romania'   # name of the combined region as saved in excel files
     freq = '1M'     # frequency as saved in excel files
 
 
@@ -164,12 +164,12 @@ if __name__ == '__main__':
 
 
     ### GENERATION TYPE/GROUP ###
-    psr_codes = psr_groups.FOSSIL # group for type of generation (see psr_groups.py and mappings.py)
-    psr_label = 'FOSSIL' # custom label
+    psr_codes = psr_groups.HYDRO_SOLAR_WIND # group for type of generation (see psr_groups.py and mappings.py)
+    psr_label = 'Hydro, Solar, Wind' # custom label
 
 
     ### YEAR-SPECIFIC LINES ###
-    start_year = 2023
+    start_year = 2022
     end_year =2024
 
 

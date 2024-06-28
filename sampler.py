@@ -138,15 +138,15 @@ def combine_sheets(region_year, country_year):
 
 if __name__ == '__main__':
 
-    country_codes = country_groups.EU
-    # country_codes = ['SE']
+    # country_codes = country_groups.EU
+    country_codes = ['RO']
     freq = '1M'
     start_year = 2015
     end_year = 2024
 
 
     # #########################################################
-    # ### RUN THIS ONYL WHEN UPDATING COUNTRY-SPECIFIC DATA ###
+    # ### RUN THIS ONly WHEN UPDATING COUNTRY-SPECIFIC DATA ###
     # #########################################################
     # # record new frequency for each country in a respective folder
     # # SHOULD BE APPENDING ONLY AFTER INITIAL RUNS
@@ -155,4 +155,4 @@ if __name__ == '__main__':
 
     
     # # records combined values for the region in the ./combined folder
-    # aggregate_region(country_codes, freq, 2015, 2024, name='EU') # rather change years manually here
+    aggregate_region(country_codes, freq, 2015, 2024, name='Romania') # rather change years manually here
