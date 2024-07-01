@@ -163,6 +163,6 @@ if __name__ == '__main__':
     
  
     #
-    generation_scraper(start, end, country_code_list, appending_data=True)
+    generation_scraper(start, end, country_code_list)
 
     

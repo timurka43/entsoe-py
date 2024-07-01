@@ -1,14 +1,14 @@
 '''
+Name: entsoe.py
 Author: Bertfried Fauser
 Contributor: Timur Kasimov
-Created: 2017? by Author
-Updated: June 2024 by Contributor
+Created: 2017? 
+Updated: June 2024 
 
 Purpose: 
-    Defining lists of various country groups/ regions 
-    for data grouping and subsequent data generation
+    internal script that specifies and sends get requests to
+    ENTSO-E's RESTful API. 
 '''
-
 
 import logging
 import pytz
@@ -23,6 +23,7 @@ __version__ = "0.1.12"
 __author__ = "EnergieID.be"
 __license__ = "MIT"
 
+# base url for entso'e API
 BASE_URL = 'https://web-api.tp.entsoe.eu/api?'
 
 
