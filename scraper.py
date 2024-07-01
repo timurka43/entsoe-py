@@ -2,9 +2,15 @@
 Name: scraper.py
 Author: Timur Kasimov
 Created: June 2024
-Updated: June 2024
+Updated: July 2024
 
-Purpose: Scrapes generation data from ENTSO-E Transparency Platform
+Purpose: 
+    Scrapes generation data from ENTSO-E Transparency Platform and
+    saves countr-specific raw data in excel files.
+
+    The units of the values saved in excel are MWh generated in the 
+    given time interval, specified by index.
+
 '''
 
 import pandas as pd
@@ -14,7 +20,7 @@ import mykey
 import mappings
 import country_groups
 
-# libraries needed for syncronous get calls
+# libraries needed for syncronous/parallel get requests
 import aiohttp
 import asyncio
 
@@ -22,16 +28,50 @@ import asyncio
 KEY = mykey.get_key() # create mykey.py with get_key method that returns YOUR OWN entso-e api key/token
 
 
-##########################
-### generation_scraper ###
-##########################
+#############
+### fetch ###
+#############
 '''
 Inputs:
+    session: aiohttp.ClientSession
+    url: str
 
-Outputs:
+Outputs: 
+    xml text as str
 
 Purpose:
+    allows to send parallel get requests and save time when pulling entso-e data
 '''
+async def fetch(session, url):
+    # print("GET START")
+    async with session.get(url) as response:
+        # print("GET returning??")
+        return await response.text()
+    
+
+    
+#################
+### fetch_all ###
+#################
+'''
+Inputs: 
+    urls: list of url strings
+
+Outputs:
+    responses: list of xml strings
+
+Purpose:
+    sends in paraller get requests to pull data from ENTSO-E 
+'''
+async def fetch_all(urls):
+    timeout = aiohttp.ClientTimeout(total=1200) # 1200 seconds = 20 minutes for 10 get simultaneous get requests
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        tasks = [asyncio.create_task(fetch(session, url)) for url in urls]
+        # print("AWAITING")
+        responses = await asyncio.gather(*tasks)
+        # print("recorded in fetch_all")
+        return responses
+
 
 
 
@@ -92,16 +132,10 @@ def generation_scraper(start_year, end_year, country_code_list, appending_data=T
             urls.append(url)
             
 
-            # xml_year = ent_app.query_generation(country_code, start_tm, end_tm, as_dataframe=False)
-        # print("got all urls")
-
-
-
         # now collect responses from all get calls
         loop = asyncio.get_event_loop()
         xml_responses = loop.run_until_complete(fetch_all(urls))
-
-        print("completed all get requests")
+        # print("completed all get requests")
 
 
         year = start_year
@@ -121,7 +155,7 @@ def generation_scraper(start_year, end_year, country_code_list, appending_data=T
             df_year.to_excel(writer, sheet_name=str(year))
             year += 1
         
-        print()
+        # print()
         # finished writing one sheet
         writer.close() # save excel file after writing sheets
         #finished one country
@@ -130,24 +164,9 @@ def generation_scraper(start_year, end_year, country_code_list, appending_data=T
     return
 
 
-
-
-async def fetch(session, url):
-    # print("GET START")
-    async with session.get(url) as response:
-        print("GET returning??")
-        return await response.text()
-
-async def fetch_all(urls):
-    timeout = aiohttp.ClientTimeout(total=1200) # 1200 seconds = 20 minutes for 10 get simultaneous get requests
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        tasks = [asyncio.create_task(fetch(session, url)) for url in urls]
-        # print("AWAITING")
-        responses = await asyncio.gather(*tasks)
-        # print("recorded in fetch_all")
-        return responses
-
-
+############
+### MAIN ###
+############
 if __name__ == '__main__':
 
     ent_app = ent.Entsoe(KEY) # my api key/token
@@ -165,4 +184,3 @@ if __name__ == '__main__':
     #
     generation_scraper(start, end, country_code_list)
 
-    

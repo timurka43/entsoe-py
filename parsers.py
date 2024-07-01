@@ -1,10 +1,16 @@
-"""
-parser
-======
+'''
+Name: parsers.py
+Author: Bertfried Fauser
+Contributor: Timur Kasimov
+Created: 2017? 
+Updated: July 2024 
 
-parse XML document and time series data from Entso-e API into a pandas data
-frame.
-"""
+Purpose: 
+    internal script that parses through XML and time series data from
+    ENTSO-E API and outputs it as a pandas data frame
+'''
+
+
 
 import logging
 import bs4
@@ -12,41 +18,12 @@ import pandas as pd
 import mappings
 
 
-
-PSRTYPE_MAPPINGS = {
-    'A03': 'Mixed',
-    'A04': 'Generation',
-    'A05': 'Load',
-    'B01': 'Biomass',
-    'B02': 'Fossil Brown coal/Lignite',
-    'B03': 'Fossil Coal-derived gas',
-    'B04': 'Fossil Gas',
-    'B05': 'Fossil Hard coal',
-    'B06': 'Fossil Oil',
-    'B07': 'Fossil Oil shale',
-    'B08': 'Fossil Peat',
-    'B09': 'Geothermal',
-    'B10': 'Hydro Pumped Storage',
-    'B11': 'Hydro Run-of-river and poundage',
-    'B12': 'Hydro Water Reservoir',
-    'B13': 'Marine',
-    'B14': 'Nuclear',
-    'B15': 'Other renewable',
-    'B16': 'Solar',
-    'B17': 'Waste',
-    'B18': 'Wind Offshore',
-    'B19': 'Wind Onshore',
-    'B20': 'Other',
-    'B21': 'AC Link',
-    'B22': 'DC Link',
-    'B23': 'Substation',
-    'B24': 'Transformer'}
-
-
-
 logger = logging.getLogger(__name__ +'-api')
 logger.addHandler(logging.NullHandler())
 # logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.INFO)
+
+
+
 
 def _extract_timeseries(xml_text):
     """
@@ -63,7 +40,7 @@ def _extract_timeseries(xml_text):
         return
     soup = bs4.BeautifulSoup(xml_text, 'xml')
     for timeseries in soup.find_all('TimeSeries'):
-        yield timeseries
+        yield timeseries # returns an iterable object of timeseries
 
 
 
@@ -103,6 +80,7 @@ def parse_generation(xml_text):
         #produce a single ts for one production type and the specified interval
         ts = _parse_generation_forecast_timeseries(soup)
 
+        # name the data frame
         series = all_series.get(ts.name)
         if series is None:
             all_series[ts.name] = ts 
@@ -178,15 +156,15 @@ def _parse_generation_forecast_timeseries(soup):
         series *= -1
 
 
-    # replaces df's series' indices with time stamps 
+    # replaces df's series' indices with time stamps and obtain energy units scaling factor
     series.index, Wh_converting_factor = _parse_datetimeindex(soup)
 
     series = series * Wh_converting_factor # scale series's power (MW) values into energy values (MWh)
 
 
 
-    #name the series according to production type
-    series.name = PSRTYPE_MAPPINGS[psrtype]  + ' ' + production_type
+    # name the series according to production type
+    series.name = mappings.PSRTYPE_MAPPINGS[psrtype]  + ' ' + production_type
     return series
 
 

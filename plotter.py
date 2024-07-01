@@ -1,3 +1,16 @@
+'''
+Name: plotter.py
+Author: Timur Kasimov
+Created: June 2024
+Updated: July 2024
+
+Purpose: 
+    Plots aggregated data for electricity generation and saves
+    the graph as well as excel file with values used for plotting
+'''
+
+
+
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
@@ -6,8 +19,22 @@ import mappings
 import country_groups
 import psr_groups
 
- 
+
 def get_combined_df(region, freq, start, end, columns, type_name):
+    '''
+    inputs:
+    ________
+    region: str
+    freq: str
+    start: int
+    end: int
+    columns: list
+    type_name str
+
+    outputs:
+    ____________
+    combined_df: pandas df
+    '''
 
     df_dict = {}
     # record each year's combined production values in a dictionary to then find min, max, mean
@@ -49,6 +76,7 @@ def mean(combined_df):
 
 
 
+
 def my_plot(region, freq, psr_codes, type_name, range=None, years=None, output_table_file=False):
     '''
     inputs:
@@ -59,6 +87,11 @@ def my_plot(region, freq, psr_codes, type_name, range=None, years=None, output_t
     type_name (custom): str
     range (for mean and min-max spread): tuple of shape (year1, year2)
     years (for individual lines): list
+
+    outputs:
+    ____________
+    * shows and saves plot as an image
+    * saves xlsx file with all values used in the plot
     '''
 
     basename = './combined/' + region + ' ' + freq
@@ -146,10 +179,12 @@ def my_plot(region, freq, psr_codes, type_name, range=None, years=None, output_t
     plt.show()
 
     return
+    #end my_plot
 
 
-
-
+############
+### MAIN ###
+############
 if __name__ == '__main__':
 
     ### REGION ###

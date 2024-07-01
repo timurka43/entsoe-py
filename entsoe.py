@@ -3,7 +3,7 @@ Name: entsoe.py
 Author: Bertfried Fauser
 Contributor: Timur Kasimov
 Created: 2017? 
-Updated: June 2024 
+Updated: July 2024 
 
 Purpose: 
     internal script that specifies and sends get requests to
@@ -23,7 +23,7 @@ __version__ = "0.1.12"
 __author__ = "EnergieID.be"
 __license__ = "MIT"
 
-# base url for entso'e API
+# base url for entso-e API
 BASE_URL = 'https://web-api.tp.entsoe.eu/api?'
 
 
@@ -73,7 +73,7 @@ class Entsoe:
         params: dictionary of parameters for the query
 
     Returns: 
-        url: final url for the query by requests.get()
+        url: str, final url for the query by requests.get()
 
     Purpose: 
         Added this function to get the actual URL printed out for debugging and inspecting
@@ -82,7 +82,7 @@ class Entsoe:
         url = url_header
         for k, v in params.items():
             # print(k+"="+v)
-            url += (k+"="+v+"&")
+            url += (k+"="+v+"&") # append parameters to url one at a time
         url.rstrip("&") #remove the trailing "&"" character
         # print(url)
         return url
@@ -99,7 +99,7 @@ class Entsoe:
         end : pd.Timestamp
 
     Returns: 
-        requests.Response
+        final_url: str
 
     Purpose: 
 
@@ -297,12 +297,12 @@ class Entsoe:
         params = {
             'documentType': 'A75', # Actual generation per type
             'processType': 'A16', # Realised
-            'in_Domain': domain,
+            'in_Domain': domain, # country
         }
         if psr_type:
             params.update({'psrType': psr_type}) # filter on one production type if psr_type specified
         # response = self.base_request(params=params, start=start, end=end)
-        url = self.base_request(params=params, start=start, end=end)
+        url = self.base_request(params=params, start=start, end=end) #get url
         return url
         
         # if response is None:
