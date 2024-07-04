@@ -45,7 +45,7 @@ Purpose:
 async def fetch(session, url):
     # print("GET START")
     async with session.get(url) as response:
-        # print("GET returning??")
+        print("GET returning??")
         return await response.text()
     
 
@@ -99,7 +99,7 @@ Issues/Improvements:
     separate function that checks the last data available and then
     adds new data to the dataframe
 '''
-def generation_scraper(start_year, end_year, country_code_list, appending_data=True):
+def generation_scraper(start_year, end_year, country_code_list, ent_app, appending_data=True):
     
     for country_code in country_code_list:
  
@@ -135,7 +135,7 @@ def generation_scraper(start_year, end_year, country_code_list, appending_data=T
         # now collect responses from all get calls
         loop = asyncio.get_event_loop()
         xml_responses = loop.run_until_complete(fetch_all(urls))
-        # print("completed all get requests")
+        print("completed all get requests")
 
 
         year = start_year
@@ -172,15 +172,15 @@ if __name__ == '__main__':
     ent_app = ent.Entsoe(KEY) # my api key/token
     
     
-    start = 2015 # 2015 is the earliest year available
+    start = 2024 # 2015 is the earliest year available
     end = 2024 # current year is the latest available
 
     # time of the day defaults to 00:00
 
-    country_code_list = country_groups.EU
-    # country_code_list = []
+    # country_code_list = country_groups.EU
+    country_code_list = ['PL']
     
  
     #
-    generation_scraper(start, end, country_code_list)
+    generation_scraper(start, end, country_code_list, ent_app)
 

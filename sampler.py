@@ -202,7 +202,7 @@ if __name__ == '__main__':
     # #########################################################
     # # record new frequency for each country in a respective folder
     # # SHOULD BE APPENDING ONLY AFTER INITIAL RUNS
-    # record_new_frequency(country_codes, freq, start_year, end_year, append=False)
+    record_new_frequency(country_codes, freq, start_year, end_year, append=True)
 
 
     
