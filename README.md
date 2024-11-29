@@ -21,7 +21,7 @@ Before you begin, ensure you have met the following requirements:
 * This is necessary if you want to occasionally update data with latest generation values by pulling directly from ENTSOE's RESTful API
 * To obtain the key from ENTSO-E, follow [instructions here](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_authentication_and_authorisation)
 * Once you have the key, define a ```get_key()``` function in *mykey.py* script to return your key as a string
-* Place *mykey.py* in the repo's *'entsoe-py/'* directory
+* Place *mykey.py* in the *'entsoe-py/'* directory
 
 
 
@@ -58,15 +58,15 @@ You might want to consider using something like the [All Contributors](https://g
 
 ## Acknowledgements
 
-[@bfauser](github.com/bfauser/) : This code was initially taken from [bfauser's entsoe-py](github.com/bfauser/entsoe-py) repository and further extensively updated and modified for my needs
+[@bfauser](github.com/bfauser/) : The base for this code was initially taken from [bfauser's entsoe-py](github.com/bfauser/entsoe-py) repository and further extensively updated and modified for my needs
 
 ## Contact
 
-If you want to contact me you can reach me at <kasimovmoor@gmail.com>.
+You can reach me at kasimovmoor [at] gmail [dot] com
 
 ## License
 <!--- If you're not sure which open license to use see https://choosealicense.com/--->
 
-This project uses the following license: [MIT License](https://github.com/timurka43/entsoe-py/blob/main/LICENSE).
+This project is licensed under: [MIT License](https://github.com/timurka43/entsoe-py/blob/main/LICENSE).
 
 
